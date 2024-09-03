@@ -1,0 +1,13 @@
+
+version: '3.8'
+
+services:
+  greetings-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    volumes:
+      - ./logs:/app/logs
+
