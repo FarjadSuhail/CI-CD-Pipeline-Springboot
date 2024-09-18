@@ -1,8 +1,8 @@
 # Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-slim
 
-# Install bash (since the slim image may not include it)
-RUN apt-get update && apt-get install -y bash
+# Install bash (since the slim image may not include it) and dos2unix to fix line endings
+RUN apt-get update && apt-get install -y bash dos2unix
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,10 +12,13 @@ COPY mvnw ./
 COPY .mvn .mvn
 COPY pom.xml ./
 
-# Ensure mvnw has execute permissions
-RUN chmod +x mvnw
+# Fix any line ending issues with mvnw and ensure it is executable
+RUN dos2unix mvnw && chmod +x mvnw
 
-# Resolve dependencies (ensure correct line endings in mvnw)
+# Verify the mvnw permissions
+RUN ls -l mvnw
+
+# Resolve dependencies
 RUN ./mvnw dependency:resolve
 
 # Copy the project source
