@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetController {
     @GetMapping("/greet")
     public String greet(){
+        System.out.println("Hello endpoint was called!");
         return "Good Evening Folks!";
     }
 
